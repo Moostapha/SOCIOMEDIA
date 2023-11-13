@@ -10,7 +10,7 @@ FULLSTACK MERN SOCIAL MEDIA APPLICATION
  - Mongoose database Management
 
 # :point_right:   DEPENDENCIES
- cf server/package.json
+ - cf server/package.json
 
 # :ballot_box_with_check: FRONTEND
 
@@ -20,6 +20,6 @@ FULLSTACK MERN SOCIAL MEDIA APPLICATION
  - Material UI
 
 # :point_right: DEPENDENCIES
- cf frontend/package.json
+ - cf frontend/package.json
 
 # :ballot_box_with_check: INSTALLATION
