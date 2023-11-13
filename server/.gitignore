@@ -1,0 +1,11 @@
+# https://blog.yarsalabs.com/gitignore-file-guide-with-examples/
+# https://www.freecodecamp.org/news/gitignore-file-how-to-ignore-files-and-folders-in-git/#contents
+
+# dependencies
+/node_modules
+
+# Variables d'environnement
+.env
+
+# Mes ressources
+/my-back-stuffs
