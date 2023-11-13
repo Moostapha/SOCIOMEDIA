@@ -1,23 +1,25 @@
 FULLSTACK MERN SOCIAL MEDIA APPLICATION
 
-# :point_right: BACKEND
+# :ballot_box_with_check: BACKEND
 
-# :ballot_box_with_check: TECHNOS
+#  :point_right: TECHNOS
 
  - Node JS
  - Express JS
  - Database MongoDB
  - Mongoose database Management
 
-# :ballot_box_with_check:  DEPENDENCIES
+# :point_right:   DEPENDENCIES
  cf server/package.json
 
-# :point_right: FRONTEND
+# :ballot_box_with_check: FRONTEND
 
-# :ballot_box_with_check:  TECHNOS
+# :point_right: TECHNOS
  - React JS
  - Redux
  - Material UI
 
-# :ballot_box_with_check: DEPENDENCIES
+# :point_right: DEPENDENCIES
  cf frontend/package.json
+
+# :ballot_box_with_check: INSTALLATION
