@@ -1,6 +1,6 @@
 FULLSTACK MERN SOCIAL MEDIA APPLICATION
 
-# :ballot_box_with_check: BACKEND
+# :ballot_box_with_check:BACKEND
 
 #  :point_right: TECHNOS
 
@@ -22,4 +22,4 @@ FULLSTACK MERN SOCIAL MEDIA APPLICATION
 # :point_right: DEPENDENCIES
  - cf frontend/package.json
 
-# :ballot_box_with_check: INSTALLATION
+# :ballot_box_with_check:INSTALLATION
