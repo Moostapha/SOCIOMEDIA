@@ -28,13 +28,13 @@ FULLSTACK MERN SOCIAL MEDIA APPLICATION
 # :arrow_right: INSTALLATION
 
 # :point_right: Initialisation du projet:
+
 - Télécharger la dernière version de Node.js sur NodeJS.org
 - ouvrer votre terminal
-- Cloner le repository avec la commande git clone https://github.com/Moostapha/SOCIAL-NETWORK.git 
-
-
+- Cloner le repository avec la commande git clone https://github.com/Moostapha/SOCIOMEDIA.git
 
 # :point_right: Backend:
+
 - Ouvrez un autre terminal tapez cd backend pour accéder à ce dossier
 - Exécutez npm install pour installer les dépendances du projet
 - Exécutez npm install -g nodemon
@@ -44,11 +44,12 @@ FULLSTACK MERN SOCIAL MEDIA APPLICATION
 - Lancez la commande nodemon index.js dans le dossier backend pour vous connecter à la database
 
 # :point_right: Frontend:
+
 - Ouvrez un autre terminal tapez cd frontend pour accéder à ce dossier
 - Executez npm install pour installer toutes les dépendances du projet
-- Exécutez npm run serve pour lancer le frontend 
+- Exécutez npm run serve pour lancer le frontend
 - ouvrez votre navigateur à l'adresse indiquée pour y voir apparaitre le frontend dans le navigateur
 
-
 # :arrow_right: AUTEUR
+
 Moustapha Touré
