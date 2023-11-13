@@ -12,7 +12,6 @@ FULLSTACK MERN SOCIAL MEDIA APPLICATION
 - Multer
 - Autres cf server/package.json
 
-
 # :arrow_right: FRONTEND
 
 # :point_right: TECHNOS
@@ -24,7 +23,6 @@ FULLSTACK MERN SOCIAL MEDIA APPLICATION
 - formik
 - react drop zone
 - Autres cf frontend/package.json
-
 
 # :arrow_right: INSTALLATION
 
@@ -43,8 +41,7 @@ FULLSTACK MERN SOCIAL MEDIA APPLICATION
 - Connecter votre base de données avec votre application via l'URL de connection fourni après création de votre cluster
 - Ajouter un fichier .env à la racine du dossier avec les variables d'environnement
   MONGODB_CONNECTION_URL = URL de connection fourni par Atlas.
-  PORT = Port de votre choix
-  JWT = String de votre choix
+  PORT = Port de votre choix |JWT = String de votre choix
 - Lancez la commande nodemon index.js dans le dossier backend pour vous connecter à la database
 
 # :point_right: Frontend:
