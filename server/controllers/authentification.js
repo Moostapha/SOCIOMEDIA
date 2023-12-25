@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import User from'../models/User';
+import User from'../models/User.js';
 
 // Authentification logic SIGNUP + LOGGIN
 
@@ -29,7 +29,7 @@ export const register = async (req, res) => {
             firstName,
             lastName,
             email,
-            password: passwordHash,  // Stockage du password crypté
+            password: passwordHash,
             picturePath,
             friends,
             location,
@@ -41,8 +41,8 @@ export const register = async (req, res) => {
         // Sauvegarde du new user créè
         const savedUser = await newUser.save();
         
-        // Envoi d'un statut 201 réussite via res au front
-        res.status(201).json('UTILISATEUR SAVED !!!', savedUser);
+        // Envoi d'un statut 201 réussite via res au front + msg
+        res.status(201).json(savedUser);
         
     } catch (error) {
         res.status(500).json({error: error.message})
@@ -59,13 +59,13 @@ export const login = async(req, res ) => {
         
         // 2) Checking if good email + password from client
         // Recherche du user possédant le email entré
-        const emailTypedByUser = await User.findOne({ email: email });
+        const user = await User.findOne({ email: email });
         
         // Si email entré par user ne match pas avec info email db
-        if(!emailTypedByUser) return res.status(400).json({ msg: "Email n'existe pas dans la DB"});
+        if(!user) return res.status(400).json({ msg: "Email n'existe pas dans la DB" });
         
         // Comparaison des hash des passwords (celui entré par client et celui stocké ds DB)
-        const passwordMatch = await bcrypt.compare(password, emailTypedByUser.password);
+        const passwordMatch = await bcrypt.compare(password, user.password);
         
         // Si password ne correspond pas
         if(!passwordMatch) return res.status(400).json({ msg: "Password invalide"});
@@ -74,11 +74,11 @@ export const login = async(req, res ) => {
         const token = jwt.sign({id: User._id}, process.env.JWT_SECRET);
         
         // Pour que le password ne soit pas renvoyé au front
-        delete emailTypedByUser.password;
-        res.status(200).json({ token, emailTypedByUser});
+        delete user.password;
+        res.status(200).json({ token, user});
         
     } catch (error) {
-        res.status(500).json({error: error.message})
+        res.status(500).json({error: error.message});
     }
 }
 

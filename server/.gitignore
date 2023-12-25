@@ -1,4 +1,4 @@
-# https://blog.yarsalabs.com/gitignore-file-guide-with-examples/
+//database# https://blog.yarsalabs.com/gitignore-file-guide-with-examples/
 # https://www.freecodecamp.org/news/gitignore-file-how-to-ignore-files-and-folders-in-git/#contents
 
 # dependencies
@@ -9,3 +9,4 @@
 
 # Mes ressources
 /my-back-stuffs
+/database

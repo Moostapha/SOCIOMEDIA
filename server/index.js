@@ -3,24 +3,28 @@ import bodyParser from "body-parser";
 import mongoose from "mongoose";          //https://www.npmjs.com/package/mongoose
 import cors from "cors";
 import dotenv from "dotenv";
-import multer from "multer";
 import helmet from "helmet";
 import morgan from "morgan";
-// 2 Node native packages to set path when configure directories
-import path from "path";
+// 2 Node native packages to set path when configure directories path + fileUrlToPath
+import path from "path";               
 import { fileURLToPath } from "url";
-// import of controllers (endpoints logics)
-import {register} from './controllers/authentification.js';
-// import des Routes 
-// authentification (construites avec les logiques de register + login du ctrler authentification.js)
-import authRoutes from './routes/authentification.js';
-// user routes
+// routes
+import authRoutes from './routes/authentification.js'; 
 import userRoutes from './routes/users.js';
-// post routes
 import postRoutes from './routes/posts.js';
 
+// CODES SI ROUTES AVEC FICHIERS DANS INDEX.JS, ALTERNATIVE MIDDLEWARE
+// import { register } from "./controllers/authentification.js";
+// import { createPost } from "./controllers/post.js";
+// import { verifyToken } from "./middlewares/authorization.js";
 
-/* ------------------------------------- MIDDLEWARE CONFIGS -------------------------------------------- */
+// injection manuelle de données dans la database mongoDB décommenter si besoin pour introduire les dummy datas de server/database/indexDb.js
+// import User from "./models/User.js";
+// import Post from "./models/Post.js";
+// import { users, posts } from './database/indexDb.js';
+
+
+/* ---- EXPRESS CONFIGS ---- */
 
 // Cf server/package.json, ajout de type:"module" préférence permettant de faire ce qui suit pour use le nom des dossiers
 // Because of type: module in package.json
@@ -30,7 +34,8 @@ const __dirname = path.dirname(__filename);
 // Var d'environnement
 dotenv.config();
 
-// APP EXPRESS MIDDLEWARE USAGES
+/* APP EXPRESS MIDDLEWARE USAGES */
+
 // https://github.com/senchalabs/connect#middleware
 const app = express();
 app.use(express.json());
@@ -42,45 +47,48 @@ app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
 app.use("/assets", express.static(path.join(__dirname, "public/assets")));  // Lieu de stockage en local de nos images
 
+/* ---- FILE STORAGE ---- */
 
-/* -------------------------------------- FILES STORAGE AVEC MULTER upload MIDDLEWARE ---------------------------------- */
+// Stockage des fichiers venant du client dans dossier public/assets du server
+// const fileStorage = multer.diskStorage({
+//     destination: function (req, file, cb) {
+//         cb(null, "public/assets");
+//     },
+//     filename: function (req, file, cb) {
+//         cb(null, file.originalname);
+//     },
+// });
+// const upload = multer({ fileStorage });
 
+/* ---- ROUTES ENDPOINTS ---- */
 
-const storage = multer.diskStorage({ 
-    destination: function(req, file, cb) {
-        cb(null, "public/assets");
-    },
-    filename: function(req, file, cb) {
-        cb(null, file.originalname)
-    }
-});
-const upload= multer({ storage });
+/* ROUTES AVEC FICHIERS  */
+// app.post('/auth/register', upload.single('picture'), register);          // upload user picture
+// app.post('/posts', verifyToken, upload.single('picture'), createPost);  // upload post picture
 
-
-/* ---------------------- ROUTES ENDPOINTS ---------------------------------------- */
-
-// ROUTES AVEC FICHIERS REGISTER + POSTS
-// app.post('endpoint api url', middleware, controller)
-app.post('/auth/register', upload.single('picture', register));
-
-
-// Authentification when register login (check good credentials password, username)
-app.use('/auth', authRoutes);
+/* ROUTES */
+app.use('/auth', authRoutes);    // Authentification 
 app.use('/users', userRoutes);
-app.use('/posts', postRoutes)
+app.use('/posts', postRoutes);
 
-
-/*----------------------------------------- MONGOOSE SETTINGS ------------------------------------- */
+/* ---- MONGOOSE SETTINGS ---- */
 
 // PORT number defined or another one just in case the first doesn't work
 const PORT = process.env.PORT || 6001;
 
 // Connection to the MongoDB database
-mongoose.connect(process.env.MONGODB_CONNECTION_URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-}).then(() => {
+mongoose.connect(
+    process.env.MONGODB_CONNECTION_URL, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+    }).then(() => {
     app.listen(PORT, () => console.log(`Server Port: ${PORT} Connexion OK`));
+    
+    // insertion manuelle de données dans notre mongoDB à faire une fois (refresh terminal once), ensuite commenter
+    // Sinon duplication de data à chaque activation de nodemon
+    // User.insertMany(users);
+    // Post.insertMany(posts);
+
 }).catch((error) => console.log(`${error} Erreur de connexion`));
 
 

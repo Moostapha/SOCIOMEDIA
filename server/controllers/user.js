@@ -1,4 +1,4 @@
-import User from '../models/User';
+import User from '../models/User.js';
 
 // CREATE USER CF AUTHENTIFICATION CTLERS
 
@@ -10,7 +10,7 @@ export const getUser = async (req, res) => {
         //1) Captage de l'id dans les params de la requête
         const {id} = req.params;
         const user = await User.findById(id);
-        //2) Renvoi infos user au front
+        //2) Réponse au front
         res.status(200).json(user)
     } catch (error) {
         res.status(404).json({message: error.message});
@@ -44,10 +44,19 @@ export const getUserFriends = async (req, res) => {
 
 
 // UPDATE USER CONTROLLER LOGICS
+// Syntax Model.findByIdAndUpdate(id, update, options, callback)
 export const updateUser = async (req, res) => {
     try {
+        const {userID} = req.params;
+        const userUpdated = await User.findByIdAndUpdate( 
+            userID, req.body,
+            
+        );
         
-    } catch (error) {
+        res.status(200).json(userUpdated);
+        await userUpdated.save();
+    } 
+    catch (error) {
         res.status(404).json({message: error.message});
     }
 };
@@ -56,7 +65,9 @@ export const updateUser = async (req, res) => {
 // DELETE USER CONTROLLER LOGICS
 export const deleteUser = async (req, res) => {
     try {
-        
+        const {userID } = req.params;
+        const userDeleted = await deleteOne({ _id: userID} );
+        res.status(200).json(userDeleted);
     } catch (error) {
         res.status(404).json({message: error.message});
     }
@@ -76,10 +87,12 @@ export const addRemoveFriend = async (req, res) => {
         if(user.friends.includes(friendId)) {
             // on renvoie le tableau de friends avec le friend supprimé
             user.friends = user.friends.filter((id) => id!== friendId);
+            // On enlève le user de la liste d'ami du frienId ajouté (suppression réciproque)
             friend.friends = friend.friends.filter((id) => id!== id)
         } else {
             // sinon on le rajoute à la liste d'amis
             user.friends.push(friendId);
+            // On rajoute le user à la liste d'ami du frienId ajouté (ajout réciproque)
             friend.friends.push(id);
         }
         
@@ -87,6 +100,7 @@ export const addRemoveFriend = async (req, res) => {
         await user.save();
         await friend.save();
         
+        // Query getAll friends du user pour formattage datas consommables par le frontend
         const friends = await Promise.all(
             user.friends.map((id) => User.findById(id))
         );
@@ -97,6 +111,7 @@ export const addRemoveFriend = async (req, res) => {
                 return {_id, firstName, lastName, occupation, location, picturePath};
             }
         );
+        // Réponse vers le front
         res.status(200).json({formattedFriends});
         
     } catch (error) {
