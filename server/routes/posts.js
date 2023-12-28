@@ -8,7 +8,7 @@ import {
     deletePost,
 } from '../controllers/post.js';
 import { verifyToken } from '../middlewares/authorization.js';
-import  upload  from "../middlewares/multerFileStorage.js";
+import  uploadFile  from "../middlewares/multerFileStorage.js";
 // NOTES https://bobbyhadz.com/blog/javascript-requested-module-not-provide-export-named
 
 const router = express.Router();
@@ -16,7 +16,7 @@ const router = express.Router();
 // CRUD
 
 // CREATE POST ROUTE WITH FILE UPLOAD
-router.post("/createPost", verifyToken, upload, createPost);
+router.post("/createPost", verifyToken, uploadFile, createPost);
 
 // READ
 router.get('/', verifyToken, getFeedPosts);
@@ -24,7 +24,7 @@ router.get('/:userID/posts', verifyToken, getUserPosts)
 
 // UPDATE
 // update file + description for a post
-router.put("/:id/update", verifyToken, upload, updatePost);
+router.put("/:id/update", verifyToken, uploadFile, updatePost);
 router.patch(':id/like', verifyToken, addRemovelikePost);
 
 // DELETE

@@ -74,19 +74,17 @@ export const Form = () => {
 
   // register function values = infos entrées dans les champs de form | onSubmitProps to reset the form (FORMIK)
   const register = async (values, onSubmitProps) => {
-    
-    try {
-      // formData form info with images
+      
+      // Envoi au server des inputs du formulaire register avec fromData
       const formData = new FormData();
       // append values infos avec une boucle sur le tableau de values
       for (let value in values) {
         formData.append(value, values[value]);
       }
       // append image entrée dans Model User => picturePath
-      // NOTES formData.append('key', value)
       formData.append("picturePath", values.picture.name);
-
-      // api call POST register values with fetch JS api
+      
+      // api call POST register values with fetch JS api to the endpoint
       const savedUserResponse = await fetch(
         "http://localhost:3001/auth/register",
         {
@@ -94,13 +92,6 @@ export const Form = () => {
           body: formData,
         }
       );
-
-      // Gestion error de la réponse
-      if (!savedUserResponse.ok) {
-        throw new Error(
-          `${savedUserResponse.status} ${savedUserResponse.statusText}`
-        )}
-
       // réponse de la logique register du controller backend
       const savedUser = await savedUserResponse.json();
 
@@ -111,67 +102,56 @@ export const Form = () => {
       if (savedUser) {
         setPageType("login");
       }
-    } catch (error) {
-      console.log(error)
-    }
   };
 
-  
   // login function
   const login = async (values, onSubmitProps) => {
-    try {
-      // Réponse api call endpoint
-      const loggedInResponse = await fetch("http://localhost:3001/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(values),
+    //try {
+      // api call endpoint
+      const loggedInResponse = await fetch(
+        "http://localhost:3001/auth/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(values),
       });
 
-      console.table("Objet response", loggedInResponse);
+      console.log("Objet response", loggedInResponse);
 
       // network error in the 4xx–5xx range
-      if (!loggedInResponse.ok) {
-        throw new Error(
-          `${loggedInResponse.status} ${loggedInResponse.statusText}`,
-          dispatch(
-            setUserAlert({
-              showAlert: true,
-              alertType: "error",
-              alertMsg: "Failed ",
-            })
-          )
-        );
-      }
+      // if (!loggedInResponse.ok) {
+      //   throw new Error (
+      //     `${loggedInResponse.status} ${loggedInResponse.statusText}`,
+      //   )
+      // }
 
       // extraction objet json de la réponse
       const loggedIn = await loggedInResponse.json();
       console.log(loggedIn);
       onSubmitProps.resetForm();
 
-      // NOTES redux state reducers setLogin + setUserAlert
-      if (loggedIn) {
-        dispatch(
-          setLogin({ user: loggedIn.user, token: loggedIn.token }),
+        // NOTES redux state reducers setLogin + setUserAlert
+        if (loggedIn) {
           dispatch(
-            setUserAlert({
-              showAlert: true,
-              alertType: "success",
-              alertMsg: "Connexion Succeed",
-            })
-          )
-        );
-        navigate("/home");
-      }
-    } catch (error) {
-      console.error(error);
-    }
-    
+            setLogin({ user: loggedIn.user, token: loggedIn.token }),
+            dispatch(setUserAlert({
+                showAlert: true,
+                alertType: "success",
+                alertMsg: "Connexion Succeed",
+              })
+            )
+          );
+          navigate("/home");
+        }
+    // } catch (error) {
+    //   console.error(error);
+    // }
   };
 
   // Form function with arguments from Formik and login + register functions
   const handleFormSubmit = async (values, onSubmitProps) => {
     // si login page
     if (isLogin) await login(values, onSubmitProps);
+
     // si register page
     if (isRegister) await register(values, onSubmitProps);
   };

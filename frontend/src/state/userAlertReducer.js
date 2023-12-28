@@ -20,6 +20,12 @@ export const userAlertSlice = createSlice({
         },
         
         clearUserAlert: () => initialState,
+
+        // clearUserAlert: (state) => {
+        //     state.showAlert= false ;
+        //     state.alertType = null;
+        //     state.alertMsg = null;
+        // },
         
     },
     
@@ -31,6 +37,14 @@ export const userAlertSlice = createSlice({
 export const { setUserAlert, clearUserAlert } = userAlertSlice.actions;
 // reducer
 export default userAlertSlice.reducer;
+
+// Fonction userAlert qui display l'alert en fonction du succés ou de l'erreur
+// export const userAlert = (error) => {
+//     if(error) {
+//         return dispatch()
+//     }
+// }
+// export the reducer as the default export and actions as named export
 
 //clearUserAlert: (state, action) => {
     //(state) => state = initialState;

@@ -24,7 +24,7 @@ export const register = async (req, res) => {
         // hash du password envoyé par le front
         const passwordHash = await bcrypt.hash(password, salt);
         
-        // Création d'un new user avec captage des inputs et utilisation du model User pour entrer les infos dans la db
+        // Création d'un new user avec captage des inputs et utilisation du model User pour entrer les infos dans la db + ajout de dummy values viewedProfile | impressions
         const newUser = new User({
             firstName,
             lastName,
@@ -34,8 +34,8 @@ export const register = async (req, res) => {
             friends,
             location,
             occupation,
-            viewedProfile: Math.floor(Math.random()* 1000),  // dumy values
-            impressions: Math.floor(Math.random()* 1000),   // dumy values
+            viewedProfile: Math.floor(Math.random()* 1000),  
+            impressions: Math.floor(Math.random()* 1000),   
         })
         
         // Sauvegarde du new user créè
@@ -43,7 +43,7 @@ export const register = async (req, res) => {
         
         // Envoi d'un statut 201 réussite via res au front + msg
         res.status(201).json(savedUser);
-        
+        // .send('User stocké dans la database !!!')
     } catch (error) {
         res.status(500).json({error: error.message})
     }

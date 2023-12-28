@@ -139,9 +139,10 @@ const NavBar = () => {
 
               {/* BUTTON LOGOUT */}
               <MenuItem
+              //TODO Fix navigation on logout click
                 onClick={() => {
-                  navigate("/");
                   dispatch(setLogout());
+                  navigate("/");
                 }}
               >
                 Log Out

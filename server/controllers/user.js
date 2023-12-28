@@ -10,6 +10,7 @@ export const getUser = async (req, res) => {
         //1) Captage de l'id dans les params de la requête
         const {id} = req.params;
         const user = await User.findById(id);
+        console.log('userDatas', user);
         //2) Réponse au front
         res.status(200).json(user)
     } catch (error) {
@@ -50,7 +51,6 @@ export const updateUser = async (req, res) => {
         const {userID} = req.params;
         const userUpdated = await User.findByIdAndUpdate( 
             userID, req.body,
-            
         );
         
         res.status(200).json(userUpdated);

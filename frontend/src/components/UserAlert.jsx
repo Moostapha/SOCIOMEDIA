@@ -1,5 +1,6 @@
 import { Alert, AlertTitle } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
+// import { clearUserAlert } from "state";
 import { clearUserAlert } from "state";
 import Button from "@mui/material/Button";
 
@@ -30,13 +31,7 @@ export const UserAlert = () => {
   return showAlert ? (
     <Alert
       severity={alertType}
-      sx={{
-        width: "80%",
-        margin: "0 auto",
-        fontSize: '2rem'
-      }}
-      spacing={2}
-      variant="filled"
+      sx={{ width: "80%", margin: "0 auto", fontSize: '2rem' }} spacing={2} variant="filled"
       action={
         <Button onClick={handleClose} color="inherit" size="small">
           FERMER

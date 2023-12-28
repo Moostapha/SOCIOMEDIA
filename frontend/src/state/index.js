@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-
+import { useDispatch } from "react-redux";
 // STATE MANAGEMENT
 // State initial stocké dans le global state pour accés dans toute l'application
 
@@ -78,22 +78,30 @@ export const authSlice = createSlice({
             state.alertType = null;
             state.alertMsg = null;
         },
-        
-        // Gestion erreur réponse API
-        // setError: (state, action) => {
-        //     state.error = action.payload.error
-            
-        // }
     }
 })
 
-// Fonction userAlert qui display l'alert en fonction du succés ou de l'erreur
-// export const userAlert = (error) => {
-//     if(error) {
-//         return dispatch()
-//     }
-// }
-// export the reducer as the default export and actions as named export
+// UserAlerts
+const dispatch = useDispatch
+export const errorAlert = () => {
+    return dispatch(
+        setUserAlert({
+            showAlert: true,
+            alertType: "error",
+            alertMsg: "Une erreur s'est produite"
+        })
+    );
+};
+
+export const successAlert = () => {
+    dispatch(
+        setUserAlert({
+            showAlert: true,
+            alertType: "success",
+            alertMsg: "Réussi !!!",
+        })
+    );
+};
 
 // actions
 export const {
@@ -103,9 +111,8 @@ export const {
     setFriends,
     setPosts,
     setPost,
-    setUserAlert, 
-    clearUserAlert,
-    setError
+    setUserAlert,
+    clearUserAlert
 
 } = authSlice.actions;
 
