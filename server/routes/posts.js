@@ -13,14 +13,15 @@ import  uploadFile  from "../middlewares/multerFileStorage.js";
 
 const router = express.Router();
 
-// CRUD
+// CRUD LOGICS
 
 // CREATE POST ROUTE WITH FILE UPLOAD
 router.post("/createPost", verifyToken, uploadFile, createPost);
 
 // READ
 router.get('/', verifyToken, getFeedPosts);
-router.get('/:userID/posts', verifyToken, getUserPosts)
+router.get('/:userID/posts', verifyToken, getUserPosts);
+
 
 // UPDATE
 // update file + description for a post

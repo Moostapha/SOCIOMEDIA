@@ -74,77 +74,74 @@ export const Form = () => {
 
   // register function values = infos entrées dans les champs de form | onSubmitProps to reset the form (FORMIK)
   const register = async (values, onSubmitProps) => {
-      
-      // Envoi au server des inputs du formulaire register avec fromData
-      const formData = new FormData();
-      // append values infos avec une boucle sur le tableau de values
-      for (let value in values) {
-        formData.append(value, values[value]);
-      }
-      // append image entrée dans Model User => picturePath
-      formData.append("picturePath", values.picture.name);
-      
-      // api call POST register values with fetch JS api to the endpoint
-      const savedUserResponse = await fetch(
-        "http://localhost:3001/auth/register",
-        {
-          method: "POST",
-          body: formData,
-        }
-      );
-      // réponse de la logique register du controller backend
-      const savedUser = await savedUserResponse.json();
+    // Envoi au server des inputs du formulaire register avec fromData
+    const formData = new FormData();
+    // append values infos avec une boucle sur le tableau de values
+    for (let value in values) {
+      formData.append(value, values[value]);
+    }
+    // append image entrée dans Model User => picturePath
+    formData.append("picturePath", values.picture.name);
 
-      // form reset with formik onSubmitProps
-      onSubmitProps.resetForm();
-
-      // Passage à la page login après register
-      if (savedUser) {
-        setPageType("login");
+    // api call POST register values with fetch JS api to the endpoint
+    const savedUserResponse = await fetch(
+      "http://localhost:3001/auth/register",
+      {
+        method: "POST",
+        body: formData,
       }
+    );
+    // réponse de la logique register du controller backend
+    const savedUser = await savedUserResponse.json();
+
+    // form reset with formik onSubmitProps
+    onSubmitProps.resetForm();
+
+    // Passage à la page login après register
+    if (savedUser) {
+      setPageType("login");
+    }
   };
 
   // login function
   const login = async (values, onSubmitProps) => {
-    //try {
-      // api call endpoint
-      const loggedInResponse = await fetch(
-        "http://localhost:3001/auth/login", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(values),
-      });
+    // api call endpoint
+    const loggedInResponse = await fetch("http://localhost:3001/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(values),
+    });
 
-      console.log("Objet response", loggedInResponse);
+    console.log("Objet response", loggedInResponse);
+    // extraction objet json de la réponse
+    const loggedIn = await loggedInResponse.json();
+    console.log("loggedIn", loggedIn);
+    onSubmitProps.resetForm();
 
-      // network error in the 4xx–5xx range
-      // if (!loggedInResponse.ok) {
-      //   throw new Error (
-      //     `${loggedInResponse.status} ${loggedInResponse.statusText}`,
-      //   )
-      // }
+    // if(!loggedInResponse) return dispatch(
+    //   setUserAlert({
+    //     showAlert: true,
+    //     alertType: "error",
+    //     alertMsg: `ERREUR !!! ${loggedIn.msg}`,
+    //   })
+    // );
 
-      // extraction objet json de la réponse
-      const loggedIn = await loggedInResponse.json();
-      console.log(loggedIn);
-      onSubmitProps.resetForm();
+    //if (!loggedInResponse) return alert(`ERREUR !!! ${loggedIn.msg}`);
 
-        // NOTES redux state reducers setLogin + setUserAlert
-        if (loggedIn) {
-          dispatch(
-            setLogin({ user: loggedIn.user, token: loggedIn.token }),
-            dispatch(setUserAlert({
-                showAlert: true,
-                alertType: "success",
-                alertMsg: "Connexion Succeed",
-              })
-            )
-          );
-          navigate("/home");
-        }
-    // } catch (error) {
-    //   console.error(error);
-    // }
+    // NOTES redux state reducers setLogin + setUserAlert
+    if (loggedIn) {
+      dispatch(
+        setLogin({ user: loggedIn.user, token: loggedIn.token }),
+        dispatch(
+          setUserAlert({
+            showAlert: true,
+            alertType: "success",
+            alertMsg: "Connexion Succeed",
+          })
+        )
+      );
+      navigate("/home");
+    }
   };
 
   // Form function with arguments from Formik and login + register functions

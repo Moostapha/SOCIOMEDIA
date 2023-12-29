@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 // Data structure for post (Schema)
 const PostSchema = new mongoose.Schema(
     {
-        userID: {
+        userAuthorId: {
             type: String,
             required: true
         },

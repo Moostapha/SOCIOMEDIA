@@ -17,8 +17,7 @@ import { useNavigate } from "react-router-dom";
 // Component userWidget with parameters pour les infos du user colonne gauche dans HomePage
 
 const UserWidget = ({ userId, picturePath }) => {
-  
-  console.log('picturePath', picturePath);
+  console.log("picturePath", picturePath);
   // Initial local state (in this component) with useState to grab the user from the server (backend)
   const [user, setUser] = useState(null);
 
@@ -34,19 +33,17 @@ const UserWidget = ({ userId, picturePath }) => {
 
   // API call to get loggeduser infos
   const getUser = async () => {
-      
-      const response = await fetch(`http://localhost:3001/users/${userId}`, {
-        method: "GET",
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      
-      // Si pas d'erreur récupération des user infos
-      //if (response.ok) {
-        const data = await response.json();
-        setUser(data);
-        console.log('userData',data);
-      //} 
-    
+    const response = await fetch(`http://localhost:3001/users/${userId}`, {
+      method: "GET",
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    // Si pas d'erreur récupération des user infos
+    //if (response.ok) {
+    const data = await response.json();
+    setUser(data);
+    console.log("userData", data);
+    //}
   };
 
   // useEffect
@@ -77,7 +74,7 @@ const UserWidget = ({ userId, picturePath }) => {
         pb="1.1rem"
         onClick={() => navigate(`/profile/${userId}`)}
       >
-        <FlexBetween gap="1rem">
+        <FlexBetween gap="1rem" sx={{ cursor: "pointer" }}>
           <UserImage image={picturePath} />
           <Box>
             <Typography
@@ -87,7 +84,6 @@ const UserWidget = ({ userId, picturePath }) => {
               sx={{
                 "&:hover": {
                   color: palette.primary.dark,
-                  cursor: "pointer",
                 },
               }}
             >

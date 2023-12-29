@@ -2,16 +2,18 @@ import Post from '../models/Post.js';
 import User from '../models/User.js';
 
 
-// CREATE POST
+// CREATE POST component MyPostWidget.jsx
 export const createPost = async (req, res) => {
     try {
         // Frontend entries for creatin a post
-        const { userID, description, picturePath } = req.body;
-        // Infos userAuthor
-        const user = await User.findById({userID});
+        const { userId, description, picturePath } = req.body;
+        console.log("Inputs venant du form:", req.body);
+        // Infos userAuthorId est le userId du user postant => Recherche dans User.js
+        const user = await User.findById(userId);
+        console.log('userAuthor infos:', user)
         // Création du new post avec les entrées du front et infos userAuthor selon le schéma Post
         const newPost = new Post({
-            userID,
+            userAuthorId: userId,
             firstName: user.firstName,
             lastName: user.lastName,
             location: user.location,
@@ -23,6 +25,7 @@ export const createPost = async (req, res) => {
         })
         // Sauvegarde du newPost dans MongoDB
         await newPost.save();
+        console.log('newPost: ',newPost);
         // Recherche de tous les posts en plus du newPost pour les renvoyer au front updated feedPosts
         const allPosts = await Post.find();
         res.status(201).json({allPosts})
