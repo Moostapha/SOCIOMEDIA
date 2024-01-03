@@ -43,6 +43,7 @@ const UserWidget = ({ userId, picturePath }) => {
     const data = await response.json();
     setUser(data);
     console.log("userData", data);
+    console.log('Type de userData',typeof(data));
     //}
   };
 
